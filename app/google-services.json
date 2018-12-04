@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "934314585496",
+    "firebase_url": "https://pedofitexerciseauthlogin.firebaseio.com",
+    "project_id": "pedofitexerciseauthlogin",
+    "storage_bucket": "pedofitexerciseauthlogin.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:934314585496:android:7dab3a30b7ac352f",
+        "android_client_info": {
+          "package_name": "com.example.a165727.pedofitexerciseproject"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "934314585496-i7pgk432gttuf4htt1t4fu7nrfhdu0s9.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.a165727.pedofitexerciseproject",
+            "certificate_hash": "0f13e1a220edcc7a39f17c6b6f63187bc232b18a"
+          }
+        },
+        {
+          "client_id": "934314585496-nakp6kajlriun6nnl0rq2vevdm1gb898.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAKFb86tokuTjmLXhSD2JkXUtrHmxjJf1Q"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "934314585496-nakp6kajlriun6nnl0rq2vevdm1gb898.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

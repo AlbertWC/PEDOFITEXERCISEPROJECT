@@ -109,7 +109,6 @@ public class MainActivity extends AppCompatActivity implements  View.OnClickList
 
             case R.id.btn_login:
                 userLogin();
-
                 break;
         }
     }

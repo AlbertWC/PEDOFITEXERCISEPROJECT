@@ -2,6 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.a165727.pedofitexerciseproject">
 
+    <uses-permission android:name="android.permission.WRITE_CALENDAR" />
+    <uses-permission android:name="android.permission.READ_CALENDAR" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -19,7 +22,18 @@
         <activity android:name=".Register" />
         <activity android:name=".Main_menu" />
         <activity android:name=".Setting" />
-        <activity android:name=".Profile"> </activity>
+        <activity android:name=".Profile" />
+
+        <activity android:name=".Achievement"></activity>
+=======
+        <activity android:name=".History">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+>>>>>>> Stashed changes
     </application>
 
 </manifest>

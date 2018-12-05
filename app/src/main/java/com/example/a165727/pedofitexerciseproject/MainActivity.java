@@ -99,7 +99,7 @@ public class MainActivity extends AppCompatActivity implements  View.OnClickList
         });
     }
 
-    //ewqeq
+    //
     @Override
     public void onClick(View v) {
         switch ((v.getId()))

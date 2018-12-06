@@ -7,6 +7,42 @@
     tools:context=".History">
 
     <TextView
+        android:id="@+id/tv_history_distanceResult"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="0"
+        android:textSize="30sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/tv_history_distance"
+        app:layout_constraintTop_toBottomOf="@+id/tv_history_stepResult" />
+
+    <TextView
+        android:id="@+id/tv_history_distance"
+        android:layout_width="wrap_content"
+        android:layout_height="44dp"
+        android:layout_marginTop="8dp"
+        android:text="Distance  :"
+        android:textSize="30sp"
+        app:layout_constraintEnd_toStartOf="@+id/tv_history_distanceResult"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_history_step" />
+
+    <TextView
+        android:id="@+id/tv_history_stepResult"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="0"
+        android:textSize="30sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/tv_history_step"
+        app:layout_constraintTop_toBottomOf="@+id/cv_history" />
+
+    <TextView
         android:id="@+id/tv_history"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -35,51 +71,15 @@
         app:layout_constraintTop_toBottomOf="@+id/tv_history" />
 
     <TextView
-        android:id="@+id/tv_step"
+        android:id="@+id/tv_history_step"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:text="Steps :"
-        android:textSize="24sp"
-        app:layout_constraintEnd_toStartOf="@+id/tv_stepResults"
+        android:textSize="30sp"
+        app:layout_constraintEnd_toStartOf="@+id/tv_history_stepResult"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/cv_history" />
-
-    <TextView
-        android:id="@+id/tv_distance"
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:layout_marginTop="8dp"
-        android:text="Distance :"
-        android:textSize="24sp"
-        app:layout_constraintEnd_toStartOf="@+id/tv_distanceResults"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_step" />
-
-    <TextView
-        android:id="@+id/tv_stepResults"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="0"
-        android:textSize="24sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/tv_step"
-        app:layout_constraintTop_toBottomOf="@+id/cv_history" />
-
-    <TextView
-        android:id="@+id/tv_distanceResults"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="0"
-        android:textSize="24sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/tv_distance"
-        app:layout_constraintTop_toBottomOf="@+id/tv_stepResults" />
 
 </android.support.constraint.ConstraintLayout>

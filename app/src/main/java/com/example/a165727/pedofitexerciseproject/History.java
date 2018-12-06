@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.CalendarView;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -27,9 +28,10 @@ public class History extends AppCompatActivity {
     TextView tv_stepsResult;
     TextView tv_distanceResult;
 
+
+
     ArrayList<Integer> daysArray;
     ArrayAdapter<Integer> daysListAdapter;
-    ListView lv_test;
     int steps = 0;
     int distance = 0;
 
@@ -42,29 +44,22 @@ public class History extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_history);
 
-
-
         calendarView = findViewById(R.id.cv_history);
         tv_history = findViewById(R.id.tv_history);
-        /*lv_test = findViewById(R.id.lv_test);*/
-        tv_stepsResult = findViewById(R.id.tv_stepResults);
-        tv_distanceResult = findViewById(R.id.tv_distanceResults);
+        tv_stepsResult = findViewById(R.id.tv_history_stepResult);
+        tv_distanceResult = findViewById(R.id.tv_history_distanceResult);
 
 
-        daysArray = new ArrayList<Integer>();
-        daysListAdapter = new ArrayAdapter<>(History.this, android.R.layout.simple_list_item_1);
 
+/*        daysArray = new ArrayList<Integer>();
+        daysListAdapter = new ArrayAdapter<>(History.this, android.R.layout.simple_list_item_1);*/
 
         myStepHistoryDB = Room.databaseBuilder(History.this, MyStepHistoryDB.class, "historyDB").build();
 
        calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
            @Override
            public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
-               /*Toast.makeText(History.this, "Hello", Toast.LENGTH_SHORT).show();*/
                saveHistory();
-                /*tv_history.append("Day" + day);*/
-
-
            }
        });
 
@@ -74,11 +69,9 @@ public class History extends AppCompatActivity {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                StepsHistory stepsHistory = new StepsHistory(1,2,3);
+                StepsHistory stepsHistory = new StepsHistory(4,5,6);
                 myStepHistoryDB.historyDao().insertHistory(stepsHistory);
                 getHistoryDay();
-
-
             }
         }).start()
         ;
@@ -92,9 +85,10 @@ public class History extends AppCompatActivity {
                 int days;
                 for (StepsHistory stepsHistory : stepsHistoryList){
                     days = stepsHistory.getHistoryDay();
-                    steps = stepsHistory.getHistoryStep();
-                    distance = stepsHistory.getHistoryDistance();
-                    daysArray.add(days);
+                    if(days == 1) {
+                        steps = stepsHistory.getHistoryStep();
+                        distance = stepsHistory.getHistoryDistance();
+                    }
                 }
                 showDataInTextView();
             }
@@ -105,8 +99,8 @@ public class History extends AppCompatActivity {
         History.this.runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                tv_stepsResult.append("Steps: " + steps);
-                tv_distanceResult.append("Distance: " + distance);
+                tv_distanceResult.setText(Integer.toString(distance));
+                tv_stepsResult.setText(Integer.toString(steps));
             }
         });
 

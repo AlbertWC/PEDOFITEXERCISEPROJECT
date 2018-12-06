@@ -24,20 +24,22 @@ import java.util.Date;
 
 public class Main_menu extends AppCompatActivity implements SensorEventListener, StepListener{
 
-    private TextView tv_steps,tv_date;
+    private TextView tv_steps,tv_date,tv_time;
     private StepDetector simpleStepDetector;
     private SensorManager sensorManager;
     private Sensor accel;
     private static final String TEXT_NUM_STEPS = "Number of Steps: ";
     private int numSteps;
     private Button btn_start,btn_stop;
-    private final SimpleDateFormat df = new SimpleDateFormat("yyyy/MM/dd HH:mm");
+    private final SimpleDateFormat df = new SimpleDateFormat("yyyy/MM/dd");
+    private final SimpleDateFormat df2 = new SimpleDateFormat("HH:mm");
+    private final SimpleDateFormat df3 = new SimpleDateFormat("dd");
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_menu);
-
 
         sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
         accel = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
@@ -56,10 +58,8 @@ public class Main_menu extends AppCompatActivity implements SensorEventListener,
                 sensorManager.registerListener(Main_menu.this, accel, SensorManager.SENSOR_DELAY_FASTEST);
 
                 step(numSteps);
-
             }
         });
-
         btn_stop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -68,35 +68,40 @@ public class Main_menu extends AppCompatActivity implements SensorEventListener,
             }
         });
 
-
         tv_date = findViewById(R.id.mainmenu_tv_date);
+        tv_time = findViewById(R.id.mainmenu_tv_time);
+
+
+
 
         //Calendar calendar = Calendar.getInstance();
      //   String formattedDate = df.format(calendar.getTime());
 
         tv_date.setText(df.format(new Date()));
+        tv_time.setText(df2.format(new Date()));
+        int day = Integer.parseInt(df3.format(new Date()));
         BroadcastReceiver BR = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
 
-
+               // Toast.makeText(Main_menu.this,"Test success toast",Toast.LENGTH_LONG).show();
 
                 if (intent.getAction().compareTo(Intent.ACTION_TIME_TICK)==0){
 
                     tv_date.setText(df.format(new Date()));
+                    tv_time.setText(df2.format(new Date()));
 
-                  //  if(tv_date.equals("17:18")){
+                    if(df2.format(new Date()).equals("00:00")){
+                       Toast.makeText(Main_menu.this,"Test success",Toast.LENGTH_LONG).show();
 
-                       //Toast.makeText(Main_menu.this,"Test success",Toast.LENGTH_LONG).show();
-                   // }
+
+
+                    }
                 }
             }
         };
         registerReceiver(BR, new IntentFilter(Intent.ACTION_TIME_TICK));
-
-
     }
-
     @Override
     public void onSensorChanged(SensorEvent sensorEvent) {
 
@@ -107,15 +112,12 @@ public class Main_menu extends AppCompatActivity implements SensorEventListener,
     }
     @Override
     public void onAccuracyChanged(Sensor sensor, int i) {
-
     }
 
     @Override
     public void step(long timeNs) {
 
-
         tv_steps.setText(TEXT_NUM_STEPS + numSteps);
         numSteps++;
-
     }
 }

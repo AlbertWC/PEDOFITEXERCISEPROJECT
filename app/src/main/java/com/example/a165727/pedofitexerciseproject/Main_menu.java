@@ -34,6 +34,12 @@ public class Main_menu extends AppCompatActivity implements SensorEventListener,
     private final SimpleDateFormat df = new SimpleDateFormat("yyyy/MM/dd");
     private final SimpleDateFormat df2 = new SimpleDateFormat("HH:mm");
     private final SimpleDateFormat df3 = new SimpleDateFormat("dd");
+    private BroadcastReceiver BR;
+
+    private int day;
+    private int distance;
+
+    public History history;
 
 
     @Override
@@ -46,9 +52,13 @@ public class Main_menu extends AppCompatActivity implements SensorEventListener,
         simpleStepDetector = new StepDetector();
         simpleStepDetector.registerListener(this);
 
+
+
         tv_steps = (TextView) findViewById(R.id.mainmenu_tv_pedometer);
         btn_start = (Button) findViewById(R.id.main_btn_start);
         btn_stop = (Button) findViewById(R.id.main_btn_stop);
+        history = new History();
+
 
         btn_start.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -64,7 +74,11 @@ public class Main_menu extends AppCompatActivity implements SensorEventListener,
             @Override
             public void onClick(View view) {
 
-                sensorManager.unregisterListener(Main_menu.this);
+
+
+               // sensorManager.unregisterListener(Main_menu.this);
+              //  Intent intent = new Intent(Main_menu.this, History.class);
+              //  startActivity(intent);
             }
         });
 
@@ -79,28 +93,39 @@ public class Main_menu extends AppCompatActivity implements SensorEventListener,
 
         tv_date.setText(df.format(new Date()));
         tv_time.setText(df2.format(new Date()));
-        int day = Integer.parseInt(df3.format(new Date()));
-        BroadcastReceiver BR = new BroadcastReceiver() {
+        day = Integer.parseInt(df3.format(new Date()));
+
+        BR = new BroadcastReceiver() {
             @Override
-            public void onReceive(Context context, Intent intent) {
+            public void onReceive(Context context, Intent intent2) {
 
                // Toast.makeText(Main_menu.this,"Test success toast",Toast.LENGTH_LONG).show();
 
-                if (intent.getAction().compareTo(Intent.ACTION_TIME_TICK)==0){
+                if (intent2.getAction().compareTo(Intent.ACTION_TIME_TICK)==0){
 
                     tv_date.setText(df.format(new Date()));
                     tv_time.setText(df2.format(new Date()));
 
-                    if(df2.format(new Date()).equals("00:00")){
-                       Toast.makeText(Main_menu.this,"Test success",Toast.LENGTH_LONG).show();
+                    if(df2.format(new Date()).equals("23:19")){
 
+                        unregisterReceiver(BR);
+                        distance = (numSteps-1) * 5;
+                      // Toast.makeText(Main_menu.this,"Test success "+ "day "+day+"numStep "+(numSteps-1)+"distance "+ distance,Toast.LENGTH_LONG).show();
+                     //  history.saveHistory(day,numSteps,distance);
 
+                       Intent intent = new Intent(Main_menu.this, History.class);
+                       intent.putExtra("dayKey", day);
+                       intent.putExtra("stepKey", numSteps-1);
+                       intent.putExtra("distanceKey", distance);
 
+                       startActivity(intent);
                     }
                 }
             }
         };
+
         registerReceiver(BR, new IntentFilter(Intent.ACTION_TIME_TICK));
+
     }
     @Override
     public void onSensorChanged(SensorEvent sensorEvent) {

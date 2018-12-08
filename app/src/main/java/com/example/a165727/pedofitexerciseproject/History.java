@@ -15,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.a165727.pedofitexerciseproject.Entities.StepsHistory;
+import com.google.android.gms.common.util.ProcessUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -64,6 +65,7 @@ public class History extends AppCompatActivity {
 
         myStepHistoryDB = Room.databaseBuilder(History.this, MyStepHistoryDB.class, "historyDB").build();
 
+
        calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
            @Override
            public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
@@ -72,7 +74,7 @@ public class History extends AppCompatActivity {
 
            }
        });
-       saveHistory();
+       //saveHistory();
     }
 
     public void saveHistory(){
@@ -103,6 +105,11 @@ public class History extends AppCompatActivity {
                         steps = stepsHistory.getHistoryStep();
                         distance = stepsHistory.getHistoryDistance();
                     }
+                    else
+                    {
+                        steps = 0 ;
+                        distance = 0 ;
+                    }
                 }
                 showDataInTextView();
 
@@ -121,4 +128,14 @@ public class History extends AppCompatActivity {
         });
 
     }
+    public void clearHistory()
+    {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                myStepHistoryDB.historyDao().delete();
+            }
+        }).start();
+    }
+
 }

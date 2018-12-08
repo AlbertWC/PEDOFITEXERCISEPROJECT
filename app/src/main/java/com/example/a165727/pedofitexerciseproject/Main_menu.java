@@ -106,7 +106,7 @@ public class Main_menu extends AppCompatActivity implements SensorEventListener,
                     tv_date.setText(df.format(new Date()));
                     tv_time.setText(df2.format(new Date()));
 
-                    if(df2.format(new Date()).equals("23:19")){
+                    if(df2.format(new Date()).equals("20:33")){
 
                         unregisterReceiver(BR);
                         distance = (numSteps-1) * 5;

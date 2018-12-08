@@ -85,7 +85,7 @@ public class History extends AppCompatActivity {
                 int days;
                 for (StepsHistory stepsHistory : stepsHistoryList){
                     days = stepsHistory.getHistoryDay();
-                    if(days == 1) {
+                    if(days == 4) {
                         steps = stepsHistory.getHistoryStep();
                         distance = stepsHistory.getHistoryDistance();
                     }

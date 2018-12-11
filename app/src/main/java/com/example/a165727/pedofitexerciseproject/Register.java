@@ -15,13 +15,19 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class Register extends AppCompatActivity implements View.OnClickListener{
 
-    EditText editTextEmail, editTextPassword;
+    EditText editTextEmail, editTextPassword, etRegisterHeight, etRegisterWeight, etRegisterAge,etRegisterNickname;
     ProgressBar progressBar;
 
     private FirebaseAuth mAuth;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,12 +37,23 @@ public class Register extends AppCompatActivity implements View.OnClickListener{
         editTextEmail = findViewById(R.id.et_registeremail);
         editTextPassword = findViewById(R.id.et_registerpassword);
         progressBar = findViewById(R.id.progressbar);
-
+        etRegisterWeight = findViewById(R.id.et_register_weight);
+        etRegisterHeight = findViewById(R.id.et_register_height);
+        etRegisterAge = findViewById(R.id.et_register_age);
 
         mAuth = FirebaseAuth.getInstance();
 
-        findViewById(R.id.btn_register).setOnClickListener(this);
-        findViewById(R.id.btn_login).setOnClickListener(this);
+        findViewById(R.id.btn_register).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                registerUser();
+                Intent intent = new Intent(Register.this, Profile.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+                Toast.makeText(getApplicationContext(), "User Registered Successfully", Toast.LENGTH_SHORT).show();
+            }
+        });
+
 
     }
 
@@ -83,10 +100,27 @@ public class Register extends AppCompatActivity implements View.OnClickListener{
                 progressBar.setVisibility(View.GONE);
                 if(task.isSuccessful())
                 {
-                    Intent intent = new Intent(Register.this, Main_menu.class);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    startActivity(intent);
-                    Toast.makeText(getApplicationContext(), "User Registered Successfully", Toast.LENGTH_SHORT).show();
+                    String  user_id = mAuth.getCurrentUser().getUid();
+                    DatabaseReference current_user_db = FirebaseDatabase.getInstance().getReference().child("Users").child(user_id);
+
+
+                    String register_weight = etRegisterWeight.getText().toString();
+                    String register_height = etRegisterHeight.getText().toString();
+                    String register_age = etRegisterAge.getText().toString();
+
+
+                    Map newPost = new HashMap();
+                    newPost.put("Weight",register_weight );
+                    newPost.put("Height",register_height );
+                    newPost.put("Age",register_age );
+                    newPost.put("userID",user_id);
+
+
+
+                    current_user_db.setValue(newPost);
+
+
+
                 }
                 else
                 {
@@ -104,19 +138,12 @@ public class Register extends AppCompatActivity implements View.OnClickListener{
 
 
     }
-    //qwe
 
     @Override
     public void onClick(View v) {
-        switch(v.getId())
-        {
-            case R.id.btn_register:
-                registerUser();
-                break;
 
-            case R.id.btn_login:
-                startActivity(new Intent(this , MainActivity.class ));
-                break;
-        }
     }
+    //qwe
+
+
 }

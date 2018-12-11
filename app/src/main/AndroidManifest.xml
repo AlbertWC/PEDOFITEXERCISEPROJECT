@@ -19,29 +19,26 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <activity android:name=".Register" />
-        <activity android:name=".Main_menu" >
-        <intent-filter>
-            <action android:name="android.intent.action.MAIN" />
-
-            <category android:name="android.intent.category.LAUNCHER" />
-        </intent-filter>
-    </activity>
-
-        <activity android:name=".Setting" />
-        <activity android:name=".Profile" />
-
-        <activity android:name=".Achievement"></activity>
-=======
-        <activity android:name=".History">
+        <activity android:name=".Register">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
->>>>>>> Stashed changes
+        <activity android:name=".Main_menu">
+
+        </activity>
+        <activity android:name=".Setting" />
+        <activity android:name=".Profile">
+
+        </activity>
+        <activity android:name=".Achievement" />
+        =======
+        <activity android:name=".History">
+
+        </activity>
+        >>>>>>> Stashed changes
     </application>
 
 </manifest>

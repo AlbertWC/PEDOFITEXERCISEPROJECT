@@ -6,6 +6,7 @@
     <uses-permission android:name="android.permission.READ_CALENDAR" />
 
     <application
+        android:name=".App"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -13,11 +14,11 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".MainActivity">
-            <intent-filter>
+            <!--<intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            </intent-filter>-->
         </activity>
 
         <activity android:name=".Register" />
@@ -41,7 +42,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
->>>>>>> Stashed changes
+
+        <service android:name=".MyService" />
     </application>
 
 </manifest>

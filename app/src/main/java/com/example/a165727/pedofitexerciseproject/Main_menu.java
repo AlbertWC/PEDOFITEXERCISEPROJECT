@@ -1,5 +1,6 @@
 package com.example.a165727.pedofitexerciseproject;
 
+import android.app.Notification;
 import android.arch.persistence.room.Room;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -9,6 +10,8 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.NotificationManagerCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -37,6 +40,7 @@ public class Main_menu extends AppCompatActivity implements SensorEventListener,
     private final SimpleDateFormat df2 = new SimpleDateFormat("HH:mm");
     private final SimpleDateFormat df3 = new SimpleDateFormat("dd");
     private BroadcastReceiver BR;
+    private NotificationManagerCompat notificationManager;
 
     private int day;
     private int distance;
@@ -53,6 +57,7 @@ public class Main_menu extends AppCompatActivity implements SensorEventListener,
         accel = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         simpleStepDetector = new StepDetector();
         simpleStepDetector.registerListener(this);
+        notificationManager = NotificationManagerCompat.from(Main_menu.this);
 
 
 
@@ -71,8 +76,9 @@ public class Main_menu extends AppCompatActivity implements SensorEventListener,
 
                 numSteps = 0;
                 sensorManager.registerListener(Main_menu.this, accel, SensorManager.SENSOR_DELAY_FASTEST);
-
                 step(numSteps);
+
+                startService(view);
             }
         });
         btn_stop.setOnClickListener(new View.OnClickListener() {
@@ -125,14 +131,13 @@ public class Main_menu extends AppCompatActivity implements SensorEventListener,
                         distance = (numSteps-1) * 5;
                       // Toast.makeText(Main_menu.this,"Test success "+ "day "+day+"numStep "+(numSteps-1)+"distance "+ distance,Toast.LENGTH_LONG).show();
                      //  history.saveHistory(day,numSteps,distance);
-
                      /*  Intent intent = new Intent(Main_menu.this, History.class);
                        intent.putExtra("dayKey", day);
                        intent.putExtra("stepKey", numSteps-1);
                        intent.putExtra("distanceKey", distance);
-
                        startActivity(intent);*/
                         saveHistory();
+                        dailyNotification();
                     }
                 }
             }
@@ -168,7 +173,25 @@ public class Main_menu extends AppCompatActivity implements SensorEventListener,
                 myStepHistoryDB.historyDao().insertHistory(stepsHistory);
             }
         }).start();
+    }
+    public void startService(View v){
+        Intent serviceIntent = new Intent(this, MyService.class);
+        startService(serviceIntent);
+    }
+    public void stopService(View v){
+        Intent serviceIntent = new Intent(this, MyService.class);
+        stopService(serviceIntent);
+    }
+    public void dailyNotification(){
+        String dailyStepsMessage = "You have walked " + numSteps + " steps today!";
+        Notification dailyNotification = new NotificationCompat.Builder(Main_menu.this, App.dailyNotification)
+                .setSmallIcon(R.drawable.ic_run)
+                .setContentTitle("PEDOFIT DAILY STEPS")
+                .setContentText(dailyStepsMessage)
+                .setPriority(NotificationCompat.PRIORITY_HIGH)
+                .setCategory(NotificationCompat.CATEGORY_MESSAGE)
+                .build();
 
-
+        notificationManager.notify(1, dailyNotification);
     }
 }

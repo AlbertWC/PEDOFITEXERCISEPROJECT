@@ -40,6 +40,8 @@ public class Register extends AppCompatActivity implements View.OnClickListener{
         etRegisterWeight = findViewById(R.id.et_register_weight);
         etRegisterHeight = findViewById(R.id.et_register_height);
         etRegisterAge = findViewById(R.id.et_register_age);
+        etRegisterNickname = findViewById(R.id.et_register_nickname);
+
 
         mAuth = FirebaseAuth.getInstance();
 
@@ -100,20 +102,21 @@ public class Register extends AppCompatActivity implements View.OnClickListener{
                 progressBar.setVisibility(View.GONE);
                 if(task.isSuccessful())
                 {
-                    String  user_id = mAuth.getCurrentUser().getUid();
+                    String user_id = mAuth.getCurrentUser().getUid();
                     DatabaseReference current_user_db = FirebaseDatabase.getInstance().getReference().child("Users").child(user_id);
 
 
                     String register_weight = etRegisterWeight.getText().toString();
                     String register_height = etRegisterHeight.getText().toString();
                     String register_age = etRegisterAge.getText().toString();
-
+                    String register_nickname = etRegisterNickname.getText().toString();
 
                     Map newPost = new HashMap();
                     newPost.put("Weight",register_weight );
                     newPost.put("Height",register_height );
                     newPost.put("Age",register_age );
                     newPost.put("userID",user_id);
+                    newPost.put("Nickname", register_nickname);
 
 
 

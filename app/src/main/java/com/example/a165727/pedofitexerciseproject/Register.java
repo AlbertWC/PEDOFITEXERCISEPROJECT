@@ -10,6 +10,7 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.example.a165727.pedofitexerciseproject.UserProfile.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -28,7 +29,7 @@ public class Register extends AppCompatActivity implements View.OnClickListener{
 
     private FirebaseAuth mAuth;
 
-
+    DatabaseReference databaseUser;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,6 +43,7 @@ public class Register extends AppCompatActivity implements View.OnClickListener{
         etRegisterAge = findViewById(R.id.et_register_age);
         etRegisterNickname = findViewById(R.id.et_register_nickname);
 
+        databaseUser = FirebaseDatabase.getInstance().getReference("Users");
 
         mAuth = FirebaseAuth.getInstance();
 
@@ -112,13 +114,13 @@ public class Register extends AppCompatActivity implements View.OnClickListener{
                     String register_nickname = etRegisterNickname.getText().toString();
 
                     Map newPost = new HashMap();
-                    newPost.put("Weight",register_weight );
-                    newPost.put("Height",register_height );
-                    newPost.put("Age",register_age );
+                    newPost.put("weight",register_weight );
+                    newPost.put("height",register_height );
+                    newPost.put("age",register_age );
                     newPost.put("userID",user_id);
-                    newPost.put("Nickname", register_nickname);
+                    newPost.put("nickname", register_nickname);
 
-
+                    addUser();
 
                     current_user_db.setValue(newPost);
 
@@ -147,6 +149,18 @@ public class Register extends AppCompatActivity implements View.OnClickListener{
 
     }
     //qwe
+    private void addUser()
+    {
+        String register_height = etRegisterHeight.getText().toString().trim();
+        String register_weight = etRegisterWeight.getText().toString().trim();
+        String register_age = etRegisterAge.getText().toString().trim();
+        String register_nickname = etRegisterNickname.getText().toString().trim();
+        String id = databaseUser.getKey();
+
+        User newuser = new User(id, register_height,register_weight,register_age,register_nickname);
+
+
+    }
 
 
 }

@@ -8,6 +8,8 @@ public class User {
     private String age;
     private String nickname;
 
+    public User() {
+    }
     public User(String userID, String height, String weight, String age, String nickname) {
         this.userID = userID;
         this.height = height;
@@ -16,8 +18,6 @@ public class User {
         this.nickname = nickname;
     }
 
-    public User() {
-    }
 
     public String getUserID() {
         return userID;

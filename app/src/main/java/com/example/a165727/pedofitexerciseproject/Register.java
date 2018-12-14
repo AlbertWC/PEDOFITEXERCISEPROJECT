@@ -51,7 +51,7 @@ public class Register extends AppCompatActivity implements View.OnClickListener{
             @Override
             public void onClick(View v) {
                 registerUser();
-                Intent intent = new Intent(Register.this, Profile.class);
+                Intent intent = new Intent(Register.this, Main_menu.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
                 Toast.makeText(getApplicationContext(), "User Registered Successfully", Toast.LENGTH_SHORT).show();

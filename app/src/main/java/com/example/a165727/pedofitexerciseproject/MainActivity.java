@@ -91,7 +91,7 @@ public class MainActivity extends AppCompatActivity implements  View.OnClickList
                 {
                     /*Log.d("Success","Success");*/
                     currentUserID = mAuth.getCurrentUser().getUid();
-                    Intent intent = new Intent(MainActivity.this, Profile.class);
+                    Intent intent = new Intent(MainActivity.this, Main_menu.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     intent.putExtra("UID",currentUserID);
                     startActivity(intent);

@@ -6,6 +6,17 @@
     android:layout_height="match_parent"
     tools:context=".Main_menu">
 
+    <Button
+        android:id="@+id/main_btn_screenshot"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="8dp"
+        android:background="@android:drawable/ic_menu_camera"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <TextView
         android:id="@+id/mainmenu_tv_title"
         android:layout_width="wrap_content"
@@ -14,7 +25,7 @@
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="64dp"
+        android:layout_marginTop="80dp"
         android:text="PEDO STEPS"
         android:textSize="36sp"
         android:textStyle="bold"

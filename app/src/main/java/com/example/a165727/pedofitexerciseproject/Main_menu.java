@@ -2,18 +2,27 @@ package com.example.a165727.pedofitexerciseproject;
 
 import android.app.Notification;
 import android.arch.persistence.room.Room;
+import android.Manifest;
+import android.arch.persistence.room.Room;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
+import android.net.Uri;
+import android.os.Environment;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -23,10 +32,17 @@ import com.example.a165727.pedofitexerciseproject.Entities.StepsHistory;
 import com.example.a165727.pedofitexerciseproject.Sensor.StepDetector;
 import com.example.a165727.pedofitexerciseproject.Sensor.StepListener;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Set;
+
+
+import static android.support.v4.content.ContextCompat.startActivity;
 
 public class Main_menu extends AppCompatActivity implements SensorEventListener, StepListener{
 
@@ -36,7 +52,7 @@ public class Main_menu extends AppCompatActivity implements SensorEventListener,
     private Sensor accel;
     private static final String TEXT_NUM_STEPS = "Number of Steps: ";
     private int numSteps;
-    private Button btn_start,btn_stop,btn_mainmenu_history;
+    private Button btn_start,btn_stop,btn_mainmenu_history,btn_screenshot;
     private final SimpleDateFormat df = new SimpleDateFormat("yyyy/MM/dd");
     private final SimpleDateFormat df2 = new SimpleDateFormat("HH:mm");
     private final SimpleDateFormat df3 = new SimpleDateFormat("dd");
@@ -49,16 +65,48 @@ public class Main_menu extends AppCompatActivity implements SensorEventListener,
     public History history;
     public static MyStepHistoryDB myStepHistoryDB;
 
+    File imagePath;
+
+
     @Override
     protected void onStart() {
         super.onStart();
 
 
         sensorManager.registerListener(Main_menu.this, accel, SensorManager.SENSOR_DELAY_FASTEST);
-        step(numSteps);
-        startService();
 
+        step(numSteps);
     }
+
+    public void Permission(){
+
+        // Here, thisActivity is the current activity
+        if (ContextCompat.checkSelfPermission(Main_menu.this,
+                Manifest.permission.READ_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
+
+            // Permission is not granted
+            // Should we show an explanation?
+            if (ActivityCompat.shouldShowRequestPermissionRationale(Main_menu.this,
+                    Manifest.permission.READ_EXTERNAL_STORAGE)) {
+                // Show an explanation to the user *asynchronously* -- don't block
+                // this thread waiting for the user's response! After the user
+                // sees the explanation, try again to request the permission.
+            } else {
+                // No explanation needed; request the permission
+                ActivityCompat.requestPermissions(Main_menu.this,
+                        new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                        0);
+
+                // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
+                // app-defined int constant. The callback method gets the
+                // result of the request.
+            }
+        } else {
+            // Permission has already been granted
+        }
+    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,7 +127,10 @@ public class Main_menu extends AppCompatActivity implements SensorEventListener,
         history = new History();
         btn_mainmenu_history = findViewById(R.id.mainmenu_btn_history);
 
-        /*numSteps = 0;*/
+       //screenshot button
+        btn_screenshot = findViewById(R.id.main_btn_screenshot);
+
+        Permission();
 
 
         myStepHistoryDB = Room.databaseBuilder(Main_menu.this, MyStepHistoryDB.class, "historyDB").build();
@@ -88,20 +139,18 @@ public class Main_menu extends AppCompatActivity implements SensorEventListener,
             @Override
             public void onClick(View view) {
 
-                /*numSteps = 0;
+                numSteps = 0;
                 sensorManager.registerListener(Main_menu.this, accel, SensorManager.SENSOR_DELAY_FASTEST);
+
                 step(numSteps);
-                startService(view);*/
 
                 Intent settingIntent = new Intent(Main_menu.this, Setting.class);
                 startActivity(settingIntent);
             }
         });
-
         btn_stop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 sensorManager.unregisterListener(Main_menu.this);
                 Intent intent = new Intent(Main_menu.this, History.class);
                 startActivity(intent);
@@ -116,10 +165,19 @@ public class Main_menu extends AppCompatActivity implements SensorEventListener,
                 startActivity(intent_mainmenu_history);
             }
         });
+
+        btn_screenshot.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            Bitmap bitmap = takescreenshot();
+            save(bitmap);
+            share();
+            }
+        });
+
         tv_date = findViewById(R.id.mainmenu_tv_date);
         tv_time = findViewById(R.id.mainmenu_tv_time);
-
-
 
 
         //Calendar calendar = Calendar.getInstance();
@@ -177,7 +235,6 @@ public class Main_menu extends AppCompatActivity implements SensorEventListener,
 
         tv_steps.setText(TEXT_NUM_STEPS + numSteps);
         numSteps++;
-
     }
     public void saveHistory(){
 
@@ -188,17 +245,47 @@ public class Main_menu extends AppCompatActivity implements SensorEventListener,
                 myStepHistoryDB.historyDao().insertHistory(stepsHistory);
             }
         }).start();
-    }
-    public void startService(){
-        Intent serviceIntent = new Intent(this, MyService.class);
-        startService(serviceIntent);
 
-        sensorManager.registerListener(Main_menu.this, accel, SensorManager.SENSOR_DELAY_FASTEST);
-        step(numSteps);
+
     }
-    public void stopService(View v){
-        Intent serviceIntent = new Intent(this, MyService.class);
-        stopService(serviceIntent);
+
+    public Bitmap takescreenshot(){
+        View rootView = findViewById(android.R.id.content).getRootView();
+        rootView.setDrawingCacheEnabled(true);
+        return rootView.getDrawingCache();
+    }
+    public void share(){
+
+        Uri uri = Uri.fromFile(imagePath);
+        Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
+        sharingIntent.setType("image/*");
+
+        //chg the text here
+        String shareBody = "Hey,check out my Pedofit scores";
+        sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "My Pedofit ");
+        sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
+        sharingIntent.putExtra(Intent.EXTRA_STREAM, uri);
+
+        // Intent send = new Intent(Intent.createChooser(sharingIntent,"Share Via"));
+        startActivity(Intent.createChooser(sharingIntent,"Share Via"));
+        //Intent.createChooser(sharingIntent,"Share Via");
+    }
+    public void save(Bitmap bitmap){
+
+        imagePath = new File(Environment.getExternalStorageDirectory()+"/screenshot.png");
+        FileOutputStream fos;
+        try{
+
+            fos = new FileOutputStream(imagePath);
+            bitmap.compress(Bitmap.CompressFormat.JPEG,100,fos);
+            fos.flush();
+            fos.close();
+
+        } catch (FileNotFoundException e){
+            Log.e("GREC",e.getMessage(),e);
+        } catch (IOException e){
+            Log.e("GREC",e.getMessage(),e);
+        }
     }
     public void dailyNotification(){
         String dailyStepsMessage = "You have walked " + numSteps + " steps today!";
@@ -212,9 +299,15 @@ public class Main_menu extends AppCompatActivity implements SensorEventListener,
 
         notificationManager.notify(1, dailyNotification);
     }
+    public void startService(){
+        Intent serviceIntent = new Intent(this, MyService.class);
+        startService(serviceIntent);
 
-    public int getSteps(int temp_step){
-        temp_step = numSteps;
-        return temp_step;
+        sensorManager.registerListener(Main_menu.this, accel, SensorManager.SENSOR_DELAY_FASTEST);
+        step(numSteps);
+    }
+    public void stopService(View v){
+        Intent serviceIntent = new Intent(this, MyService.class);
+        stopService(serviceIntent);
     }
 }

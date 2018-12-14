@@ -26,6 +26,7 @@ import com.example.a165727.pedofitexerciseproject.Sensor.StepListener;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Set;
 
 public class Main_menu extends AppCompatActivity implements SensorEventListener, StepListener{
 
@@ -83,23 +84,23 @@ public class Main_menu extends AppCompatActivity implements SensorEventListener,
 
         myStepHistoryDB = Room.databaseBuilder(Main_menu.this, MyStepHistoryDB.class, "historyDB").build();
 
-      /*  btn_start.setOnClickListener(new View.OnClickListener() {
+        btn_start.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                numSteps = 0;
+                /*numSteps = 0;
                 sensorManager.registerListener(Main_menu.this, accel, SensorManager.SENSOR_DELAY_FASTEST);
                 step(numSteps);
+                startService(view);*/
 
-                startService(view);
+                Intent settingIntent = new Intent(Main_menu.this, Setting.class);
+                startActivity(settingIntent);
             }
-        });*/
+        });
 
         btn_stop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-
 
                 sensorManager.unregisterListener(Main_menu.this);
                 Intent intent = new Intent(Main_menu.this, History.class);

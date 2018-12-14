@@ -14,6 +14,7 @@ public class Setting extends AppCompatActivity {
     public static MyStepHistoryDB myStepHistoryDB;
     RatingBar ratingBar;
     Button btn_setting_about;
+    Button btn_setting_profile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +27,7 @@ public class Setting extends AppCompatActivity {
         btn_setting_clearHistory = findViewById(R.id.btn_setting_clearHistory);
         ratingBar = findViewById(R.id.rating_bar);
         btn_setting_about = findViewById(R.id.btn_setting_about);
+        btn_setting_profile = findViewById(R.id.btn_setting_profile);
 
         btn_setting_clearHistory.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -39,6 +41,14 @@ public class Setting extends AppCompatActivity {
             public void onClick(View v) {
                 Intent aboutUsIntent = new Intent(Setting.this, AboutUS.class);
                 startActivity(aboutUsIntent);
+            }
+        });
+
+        btn_setting_profile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent profileIntent = new Intent(Setting.this, Profile.class);
+                startActivity(profileIntent);
             }
         });
 

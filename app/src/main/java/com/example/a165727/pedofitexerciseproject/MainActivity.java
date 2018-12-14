@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.EditText;
@@ -22,13 +23,14 @@ public class MainActivity extends AppCompatActivity implements  View.OnClickList
     private FirebaseAuth mAuth;
     private EditText editTextEmail, editTextPassword;
     ProgressBar progressBar;
-
+    String currentUserID;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         mAuth = FirebaseAuth.getInstance();
+
         findViewById(R.id.btn_register).setOnClickListener(this);
         findViewById(R.id.btn_login).setOnClickListener(this);
 
@@ -87,9 +89,13 @@ public class MainActivity extends AppCompatActivity implements  View.OnClickList
                 progressBar.setVisibility(View.GONE);
                 if (task.isSuccessful())
                 {
-                    Intent intent = new Intent(MainActivity.this, Main_menu.class);
+                    /*Log.d("Success","Success");*/
+                    currentUserID = mAuth.getCurrentUser().getUid();
+                    Intent intent = new Intent(MainActivity.this, Profile.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    intent.putExtra("UID",currentUserID);
                     startActivity(intent);
+                    finish();
                 }
                 else
                 {

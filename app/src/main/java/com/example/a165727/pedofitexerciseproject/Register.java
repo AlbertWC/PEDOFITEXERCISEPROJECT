@@ -10,19 +10,26 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.example.a165727.pedofitexerciseproject.UserProfile.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class Register extends AppCompatActivity implements View.OnClickListener{
 
-    EditText editTextEmail, editTextPassword;
+    EditText editTextEmail, editTextPassword, etRegisterHeight, etRegisterWeight, etRegisterAge,etRegisterNickname;
     ProgressBar progressBar;
 
     private FirebaseAuth mAuth;
 
+    DatabaseReference databaseUser;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,12 +38,26 @@ public class Register extends AppCompatActivity implements View.OnClickListener{
         editTextEmail = findViewById(R.id.et_registeremail);
         editTextPassword = findViewById(R.id.et_registerpassword);
         progressBar = findViewById(R.id.progressbar);
+        etRegisterWeight = findViewById(R.id.et_register_weight);
+        etRegisterHeight = findViewById(R.id.et_register_height);
+        etRegisterAge = findViewById(R.id.et_register_age);
+        etRegisterNickname = findViewById(R.id.et_register_nickname);
 
+        databaseUser = FirebaseDatabase.getInstance().getReference("Users");
 
         mAuth = FirebaseAuth.getInstance();
 
-        findViewById(R.id.btn_register).setOnClickListener(this);
-        findViewById(R.id.btn_login).setOnClickListener(this);
+        findViewById(R.id.btn_register).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                registerUser();
+                Intent intent = new Intent(Register.this, Profile.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+                Toast.makeText(getApplicationContext(), "User Registered Successfully", Toast.LENGTH_SHORT).show();
+            }
+        });
+
 
     }
 
@@ -83,10 +104,28 @@ public class Register extends AppCompatActivity implements View.OnClickListener{
                 progressBar.setVisibility(View.GONE);
                 if(task.isSuccessful())
                 {
-                    Intent intent = new Intent(Register.this, Main_menu.class);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    startActivity(intent);
-                    Toast.makeText(getApplicationContext(), "User Registered Successfully", Toast.LENGTH_SHORT).show();
+                    String user_id = mAuth.getCurrentUser().getUid();
+                    DatabaseReference current_user_db = FirebaseDatabase.getInstance().getReference().child("Users").child(user_id);
+
+
+                    String register_weight = etRegisterWeight.getText().toString();
+                    String register_height = etRegisterHeight.getText().toString();
+                    String register_age = etRegisterAge.getText().toString();
+                    String register_nickname = etRegisterNickname.getText().toString();
+
+                    Map newPost = new HashMap();
+                    newPost.put("weight",register_weight );
+                    newPost.put("height",register_height );
+                    newPost.put("age",register_age );
+                    newPost.put("userID",user_id);
+                    newPost.put("nickname", register_nickname);
+
+                    addUser();
+
+                    current_user_db.setValue(newPost);
+
+
+
                 }
                 else
                 {
@@ -104,19 +143,24 @@ public class Register extends AppCompatActivity implements View.OnClickListener{
 
 
     }
-    //qwe
 
     @Override
     public void onClick(View v) {
-        switch(v.getId())
-        {
-            case R.id.btn_register:
-                registerUser();
-                break;
 
-            case R.id.btn_login:
-                startActivity(new Intent(this , MainActivity.class ));
-                break;
-        }
     }
+    //qwe
+    private void addUser()
+    {
+        String register_height = etRegisterHeight.getText().toString().trim();
+        String register_weight = etRegisterWeight.getText().toString().trim();
+        String register_age = etRegisterAge.getText().toString().trim();
+        String register_nickname = etRegisterNickname.getText().toString().trim();
+        String id = databaseUser.getKey();
+
+        User newuser = new User(id, register_height,register_weight,register_age,register_nickname);
+
+
+    }
+
+
 }

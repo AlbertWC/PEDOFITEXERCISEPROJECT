@@ -139,7 +139,7 @@ public class Main_menu extends AppCompatActivity implements SensorEventListener,
                     tv_date.setText(df.format(new Date()));
                     tv_time.setText(df2.format(new Date()));
 
-                    if(df2.format(new Date()).equals("15:22")){
+                    if(df2.format(new Date()).equals("00:00")){
 
                         unregisterReceiver(BR);
                         distance = (numSteps-1) * 5;
@@ -208,6 +208,7 @@ public class Main_menu extends AppCompatActivity implements SensorEventListener,
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
                 .setCategory(NotificationCompat.CATEGORY_MESSAGE)
                 .build();
+
         notificationManager.notify(1, dailyNotification);
     }
 

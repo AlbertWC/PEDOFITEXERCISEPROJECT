@@ -49,6 +49,17 @@ public class Main_menu extends AppCompatActivity implements SensorEventListener,
     public static MyStepHistoryDB myStepHistoryDB;
 
     @Override
+    protected void onStart() {
+        super.onStart();
+
+
+        sensorManager.registerListener(Main_menu.this, accel, SensorManager.SENSOR_DELAY_FASTEST);
+        step(numSteps);
+        startService();
+
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_menu);
@@ -67,10 +78,12 @@ public class Main_menu extends AppCompatActivity implements SensorEventListener,
         history = new History();
         btn_mainmenu_history = findViewById(R.id.mainmenu_btn_history);
 
+        /*numSteps = 0;*/
+
 
         myStepHistoryDB = Room.databaseBuilder(Main_menu.this, MyStepHistoryDB.class, "historyDB").build();
 
-        btn_start.setOnClickListener(new View.OnClickListener() {
+      /*  btn_start.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
@@ -80,7 +93,8 @@ public class Main_menu extends AppCompatActivity implements SensorEventListener,
 
                 startService(view);
             }
-        });
+        });*/
+
         btn_stop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -125,7 +139,7 @@ public class Main_menu extends AppCompatActivity implements SensorEventListener,
                     tv_date.setText(df.format(new Date()));
                     tv_time.setText(df2.format(new Date()));
 
-                    if(df2.format(new Date()).equals("00:00")){
+                    if(df2.format(new Date()).equals("15:22")){
 
                         unregisterReceiver(BR);
                         distance = (numSteps-1) * 5;
@@ -144,7 +158,6 @@ public class Main_menu extends AppCompatActivity implements SensorEventListener,
         };
 
         registerReceiver(BR, new IntentFilter(Intent.ACTION_TIME_TICK));
-
     }
     @Override
     public void onSensorChanged(SensorEvent sensorEvent) {
@@ -163,6 +176,7 @@ public class Main_menu extends AppCompatActivity implements SensorEventListener,
 
         tv_steps.setText(TEXT_NUM_STEPS + numSteps);
         numSteps++;
+
     }
     public void saveHistory(){
 
@@ -174,9 +188,12 @@ public class Main_menu extends AppCompatActivity implements SensorEventListener,
             }
         }).start();
     }
-    public void startService(View v){
+    public void startService(){
         Intent serviceIntent = new Intent(this, MyService.class);
         startService(serviceIntent);
+
+        sensorManager.registerListener(Main_menu.this, accel, SensorManager.SENSOR_DELAY_FASTEST);
+        step(numSteps);
     }
     public void stopService(View v){
         Intent serviceIntent = new Intent(this, MyService.class);
@@ -191,7 +208,11 @@ public class Main_menu extends AppCompatActivity implements SensorEventListener,
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
                 .setCategory(NotificationCompat.CATEGORY_MESSAGE)
                 .build();
-
         notificationManager.notify(1, dailyNotification);
+    }
+
+    public int getSteps(int temp_step){
+        temp_step = numSteps;
+        return temp_step;
     }
 }

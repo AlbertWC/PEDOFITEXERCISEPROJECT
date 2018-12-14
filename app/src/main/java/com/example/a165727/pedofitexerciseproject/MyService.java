@@ -20,8 +20,8 @@ public class MyService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        Intent notificationIntetn = new Intent(this, Main_menu.class);
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, notificationIntetn, 0);
+        Intent notificationIntent = new Intent(this, Main_menu.class);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
 
         Notification notitfication = new NotificationCompat.Builder(this, CHANNEL_ID)
                 .setContentTitle("Service")
@@ -37,6 +37,7 @@ public class MyService extends Service {
 
     @Override
     public void onDestroy() {
+
         super.onDestroy();
     }
 
@@ -44,5 +45,9 @@ public class MyService extends Service {
     @Override
     public IBinder onBind(Intent intent) {
         return null;
+    }
+
+    @Override
+    public void onTaskRemoved(Intent rootIntent) {
     }
 }

@@ -12,7 +12,6 @@ public class App extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-
         createNotificationChannel();
     }
 
@@ -27,7 +26,6 @@ public class App extends Application {
             NotificationChannel dailyNotificationChannel = new NotificationChannel(
                     dailyNotification, "PEDOFIT",
                     NotificationManager.IMPORTANCE_DEFAULT
-
             );
 
             NotificationManager manager = getSystemService(NotificationManager.class);

@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.CalendarView;
@@ -74,7 +75,6 @@ public class History extends AppCompatActivity {
 
            }
        });
-       //saveHistory();
     }
 
     public void saveHistory(){
@@ -101,14 +101,16 @@ public class History extends AppCompatActivity {
                 int days ;
                 for (StepsHistory stepsHistory : stepsHistoryList){
                     days = stepsHistory.getHistoryDay();
-                    if(days == day) {
+                     if(days == day) {
                         steps = stepsHistory.getHistoryStep();
                         distance = stepsHistory.getHistoryDistance();
+                        Log.d("Stepsresult + dayresult","" +days + " " + steps);
                     }
-                    else
-                    {
-                        steps = 0 ;
-                        distance = 0 ;
+
+                    if(day > days){
+                         steps = 0;
+                         distance = 0;
+                        Log.d("Stepsresult + dayresult","" +days + " " + steps);
                     }
                 }
                 showDataInTextView();

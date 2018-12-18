@@ -66,7 +66,7 @@ public class Profile extends AppCompatActivity {
 
 
         //initialise listview
-        profilelistview = findViewById(R.id.lv_profile_biodata);
+
 
         FBuser = mAuth.getInstance().getCurrentUser();
         uid = FBuser.getUid();

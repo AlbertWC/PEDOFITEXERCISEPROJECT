@@ -23,4 +23,5 @@ public interface HistoryDao {
 
     @Query("DELETE FROM StepsHistoryTable ")
     void delete();
+
 }

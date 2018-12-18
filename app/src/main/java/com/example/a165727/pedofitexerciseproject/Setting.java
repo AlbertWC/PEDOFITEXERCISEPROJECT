@@ -1,6 +1,8 @@
 package com.example.a165727.pedofitexerciseproject;
 
+import android.app.AlertDialog;
 import android.arch.persistence.room.Room;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -32,7 +34,26 @@ public class Setting extends AppCompatActivity {
         btn_setting_clearHistory.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                clearHistory();
+
+                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(Setting.this);
+                alertDialogBuilder.setTitle("Confirm");
+                alertDialogBuilder.setMessage("Are you sure you want to clear all history ");
+                alertDialogBuilder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                });
+
+                alertDialogBuilder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        clearHistory();
+                    }
+                });
+                alertDialogBuilder.show();
+
             }
         });
 
@@ -64,7 +85,10 @@ public class Setting extends AppCompatActivity {
         new Thread(new Runnable() {
             @Override
             public void run() {
+
+
                 myStepHistoryDB.historyDao().delete();
+
             }
         }).start();
     }

@@ -68,6 +68,8 @@ public class Main_menu extends AppCompatActivity implements SensorEventListener,
     File imagePath;
 
 
+    int ssCount =1;
+
     @Override
     protected void onStart() {
         super.onStart();
@@ -161,7 +163,7 @@ public class Main_menu extends AppCompatActivity implements SensorEventListener,
             public void onClick(View v) {
                 distance = (numSteps-1) * 5;
                 Intent intent_mainmenu_history = new Intent(Main_menu.this , History.class);
-                saveHistory();
+  /*              saveHistory();*/
                 startActivity(intent_mainmenu_history);
             }
         });
@@ -173,6 +175,8 @@ public class Main_menu extends AppCompatActivity implements SensorEventListener,
             Bitmap bitmap = takescreenshot();
             save(bitmap);
             share();
+
+            ssCount++;
             }
         });
 
@@ -241,7 +245,7 @@ public class Main_menu extends AppCompatActivity implements SensorEventListener,
         new Thread(new Runnable() {
             @Override
             public void run() {
-                StepsHistory stepsHistory = new StepsHistory(day,numSteps,distance);;
+                StepsHistory stepsHistory = new StepsHistory(day,numSteps,distance);
                 myStepHistoryDB.historyDao().insertHistory(stepsHistory);
             }
         }).start();
@@ -272,10 +276,16 @@ public class Main_menu extends AppCompatActivity implements SensorEventListener,
     }
     public void save(Bitmap bitmap){
 
+
+
         imagePath = new File(Environment.getExternalStorageDirectory()+"/screenshot.png");
+
+
         FileOutputStream fos;
         try{
 
+
+            Toast.makeText(Main_menu.this,"saved",Toast.LENGTH_SHORT).show();
             fos = new FileOutputStream(imagePath);
             bitmap.compress(Bitmap.CompressFormat.JPEG,100,fos);
             fos.flush();
@@ -286,6 +296,8 @@ public class Main_menu extends AppCompatActivity implements SensorEventListener,
         } catch (IOException e){
             Log.e("GREC",e.getMessage(),e);
         }
+
+
 
     }
     public void dailyNotification(){

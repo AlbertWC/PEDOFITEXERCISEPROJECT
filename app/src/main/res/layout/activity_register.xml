@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/bck"
     tools:context=".Register">
 
     <EditText
@@ -19,6 +20,8 @@
         android:hint="Email Address"
         android:inputType="textEmailAddress"
         android:text=""
+        android:textColor="@color/browser_actions_bg_grey"
+        android:textColorHint="@color/browser_actions_bg_grey"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -36,6 +39,8 @@
         android:ems="10"
         android:hint="Password"
         android:inputType="textPassword"
+        android:textColor="@color/browser_actions_bg_grey"
+        android:textColorHint="@color/browser_actions_bg_grey"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -54,7 +59,12 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.503"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/et_register_age" />
+        app:layout_constraintTop_toBottomOf="@+id/et_register_age"
+        android:background="@drawable/buttonshape"
+        android:shadowColor="#A8A8A8"
+        android:shadowDx="0"
+        android:shadowDy="0"
+        android:shadowRadius="5"/>
 
 
     <ProgressBar
@@ -85,7 +95,9 @@
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         android:text="Register"
+        android:textColor="@color/browser_actions_bg_grey"
         android:textSize="30sp"
+        app:fontFamily="casual"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -100,7 +112,10 @@
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         android:text="Biodata"
+        android:textColor="@color/browser_actions_bg_grey"
         android:textSize="24sp"
+        android:textStyle="bold"
+        app:fontFamily="casual"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.512"
         app:layout_constraintStart_toStartOf="parent"
@@ -118,6 +133,8 @@
         android:ems="10"
         android:hint="Age"
         android:inputType="number"
+        android:textColor="@color/browser_actions_bg_grey"
+        android:textColorHint="@color/browser_actions_bg_grey"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -135,6 +152,8 @@
         android:ems="10"
         android:hint="Height in cm"
         android:inputType="numberDecimal"
+        android:textColor="@color/browser_actions_bg_grey"
+        android:textColorHint="@color/browser_actions_bg_grey"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -150,8 +169,10 @@
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         android:ems="10"
-        android:hint="Weight in cm"
+        android:hint="Weight in Kg"
         android:inputType="numberDecimal"
+        android:textColor="@color/browser_actions_bg_grey"
+        android:textColorHint="@color/browser_actions_bg_grey"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -169,6 +190,8 @@
         android:ems="10"
         android:hint="Nickname"
         android:inputType="textPersonName"
+        android:textColor="@color/browser_actions_bg_grey"
+        android:textColorHint="@color/browser_actions_bg_grey"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView3" />

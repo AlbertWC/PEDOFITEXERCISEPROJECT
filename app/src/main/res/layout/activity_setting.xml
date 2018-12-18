@@ -4,31 +4,37 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/bck"
     tools:context=".Setting">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginTop="100dp"
         android:gravity="center_horizontal"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        app:layout_constraintTop_toTopOf="parent">
 
         <Button
             android:id="@+id/btn_setting_clearHistory"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Clear History" />
+            android:text="Clear History"
+            android:textSize="18sp" />
 
         <Button
             android:id="@+id/btn_setting_about"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="About Us" />
+            android:text="About Us"
+            android:textSize="18sp" />
 
         <Button
             android:id="@+id/btn_setting_profile"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Profile" />
+            android:text="Profile"
+            android:textSize="18sp" />
 
         <TextView
             android:id="@+id/tv_rate"
@@ -36,7 +42,7 @@
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
             android:text="Rate Us!"
-            android:textSize="24sp" />
+            android:textSize="30sp" />
 
         <RatingBar
             android:id="@+id/rating_bar"
@@ -46,5 +52,23 @@
 
 
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/textView13"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:text="Settings"
+        android:textColor="@color/browser_actions_bg_grey"
+        android:textSize="36sp"
+        android:textStyle="bold"
+        app:fontFamily="casual"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </android.support.constraint.ConstraintLayout>

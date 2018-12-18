@@ -286,6 +286,7 @@ public class Main_menu extends AppCompatActivity implements SensorEventListener,
         } catch (IOException e){
             Log.e("GREC",e.getMessage(),e);
         }
+
     }
     public void dailyNotification(){
         String dailyStepsMessage = "You have walked " + numSteps + " steps today!";

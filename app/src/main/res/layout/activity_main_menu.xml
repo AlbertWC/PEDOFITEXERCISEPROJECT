@@ -4,7 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+
+
+    android:background="@drawable/bck"
     tools:context=".Main_menu">
+
 
     <Button
         android:id="@+id/main_btn_screenshot"
@@ -27,6 +31,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="80dp"
         android:text="PEDO STEPS"
+        android:textColor="@android:color/white"
         android:textSize="36sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
@@ -43,6 +48,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
         android:text="Date"
+        android:textColor="@android:color/white"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="@+id/mainmenu_tv_title"
         app:layout_constraintStart_toStartOf="@+id/mainmenu_tv_title"
@@ -58,6 +64,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="64dp"
         android:text="Number of Steps: 0"
+        android:textColor="@android:color/white"
         android:textSize="36sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -81,22 +88,39 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Steps" />
+            android:background="@drawable/buttonshape"
+            android:shadowColor="#A8A8A8"
+            android:shadowDx="0"
+            android:shadowDy="0"
+            android:shadowRadius="5"
+            android:text="Steps"
+            android:textColor="@android:color/black" />
 
         <Button
             android:id="@+id/mainmenu_btn_history"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Histories" />
+            android:text="Histories"
+            android:background="@drawable/buttonshape"
+            android:shadowColor="#A8A8A8"
+            android:shadowDx="0"
+            android:shadowDy="0"
+            android:shadowRadius="5"/>
     </LinearLayout>
 
     <Button
         android:id="@+id/main_btn_start"
-        android:layout_width="0dp"
+        android:layout_width="130dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
+        android:background="@drawable/buttonshape"
+        android:shadowColor="#A8A8A8"
+        android:shadowDx="0"
+        android:shadowDy="0"
+        android:shadowRadius="5"
         android:text="Start"
+        android:textColor="@android:color/white"
         app:layout_constraintEnd_toStartOf="@+id/main_btn_stop"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
@@ -104,9 +128,14 @@
 
     <Button
         android:id="@+id/main_btn_stop"
-        android:layout_width="0dp"
+        android:layout_width="130dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
+        android:background="@drawable/buttonshape"
+        android:shadowColor="#A8A8A8"
+        android:shadowDx="0"
+        android:shadowDy="0"
+        android:shadowRadius="5"
         android:text="Stop"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
@@ -123,6 +152,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:text="Time"
+        android:textColor="@android:color/white"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="@+id/mainmenu_tv_date"
         app:layout_constraintStart_toStartOf="@+id/mainmenu_tv_date"

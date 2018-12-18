@@ -71,6 +71,7 @@ public class History extends AppCompatActivity {
            @Override
            public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
                userSelectDay = dayOfMonth;
+               //saveHistory();
                getHistoryDay(dayOfMonth);
 
            }
@@ -78,14 +79,10 @@ public class History extends AppCompatActivity {
     }
 
     public void saveHistory(){
-        Bundle bundle1 = getIntent().getExtras();
-        main_day = bundle1.getInt("dayKey");
-        main_step = bundle1.getInt("stepKey");
-        main_distance = bundle1.getInt("distanceKey");
         new Thread(new Runnable() {
             @Override
             public void run() {
-                StepsHistory stepsHistory = new StepsHistory(main_day,main_step,main_distance);;
+                StepsHistory stepsHistory = new StepsHistory(17,50,50);
                 myStepHistoryDB.historyDao().insertHistory(stepsHistory);
             }
         }).start();
@@ -102,12 +99,11 @@ public class History extends AppCompatActivity {
                 for (StepsHistory stepsHistory : stepsHistoryList){
                     days = stepsHistory.getHistoryDay();
                      if(days == day) {
-                        steps = stepsHistory.getHistoryStep();
+                        steps = (stepsHistory.getHistoryStep()-1);
                         distance = stepsHistory.getHistoryDistance();
                         Log.d("Stepsresult + dayresult","" +days + " " + steps);
                     }
-
-                    if(day > days){
+                    else if(day > days){
                          steps = 0;
                          distance = 0;
                         Log.d("Stepsresult + dayresult","" +days + " " + steps);

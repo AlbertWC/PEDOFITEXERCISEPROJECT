@@ -50,9 +50,9 @@ public class Main_menu extends AppCompatActivity implements SensorEventListener,
     private StepDetector simpleStepDetector;
     private SensorManager sensorManager;
     private Sensor accel;
-    private static final String TEXT_NUM_STEPS = "Number of Steps: ";
+    private static final String TEXT_NUM_STEPS = "";
     private int numSteps;
-    private Button btn_start,btn_stop,btn_mainmenu_history,btn_screenshot;
+    private Button btn_stop,btn_mainmenu_history,btn_screenshot, btn_mainmenu_setting;
     private final SimpleDateFormat df = new SimpleDateFormat("yyyy/MM/dd");
     private final SimpleDateFormat df2 = new SimpleDateFormat("HH:mm");
     private final SimpleDateFormat df3 = new SimpleDateFormat("dd");
@@ -124,10 +124,11 @@ public class Main_menu extends AppCompatActivity implements SensorEventListener,
 
 
         tv_steps = (TextView) findViewById(R.id.mainmenu_tv_pedometer);
-        btn_start = (Button) findViewById(R.id.main_btn_start);
+/*        btn_start = (Button) findViewById(R.id.main_btn_start);*/
         btn_stop = (Button) findViewById(R.id.main_btn_stop);
         history = new History();
         btn_mainmenu_history = findViewById(R.id.mainmenu_btn_history);
+        btn_mainmenu_setting = findViewById(R.id.main_btn_setting);
 
        //screenshot button
         btn_screenshot = findViewById(R.id.main_btn_screenshot);
@@ -137,7 +138,7 @@ public class Main_menu extends AppCompatActivity implements SensorEventListener,
 
         myStepHistoryDB = Room.databaseBuilder(Main_menu.this, MyStepHistoryDB.class, "historyDB").build();
 
-        btn_start.setOnClickListener(new View.OnClickListener() {
+/*        btn_start.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
@@ -149,21 +150,29 @@ public class Main_menu extends AppCompatActivity implements SensorEventListener,
                 Intent settingIntent = new Intent(Main_menu.this, Setting.class);
                 startActivity(settingIntent);
             }
+        });*/
+
+        btn_mainmenu_setting.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent settingIntent = new Intent(Main_menu.this, Setting.class);
+                startActivity(settingIntent);
+            }
         });
         btn_stop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 sensorManager.unregisterListener(Main_menu.this);
-                Intent intent = new Intent(Main_menu.this, History.class);
-                startActivity(intent);
+                //Intent intent = new Intent(Main_menu.this, History.class);
+               // startActivity(intent);
             }
         });
         btn_mainmenu_history.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 distance = (numSteps-1) * 5;
+/*                saveHistory();*/
                 Intent intent_mainmenu_history = new Intent(Main_menu.this , History.class);
-  /*              saveHistory();*/
                 startActivity(intent_mainmenu_history);
             }
         });
@@ -205,7 +214,7 @@ public class Main_menu extends AppCompatActivity implements SensorEventListener,
                     if(df2.format(new Date()).equals("00:00")){
 
                         unregisterReceiver(BR);
-                        distance = (numSteps-1) * 5;
+                        distance = (numSteps-1) * 2;
                       // Toast.makeText(Main_menu.this,"Test success "+ "day "+day+"numStep "+(numSteps-1)+"distance "+ distance,Toast.LENGTH_LONG).show();
                      //  history.saveHistory(day,numSteps,distance);
                      /*  Intent intent = new Intent(Main_menu.this, History.class);
@@ -215,7 +224,9 @@ public class Main_menu extends AppCompatActivity implements SensorEventListener,
                        startActivity(intent);*/
                         saveHistory();
                         dailyNotification();
+
                     }
+                    registerReceiver(BR, new IntentFilter(Intent.ACTION_TIME_TICK));
                 }
             }
         };
@@ -301,7 +312,7 @@ public class Main_menu extends AppCompatActivity implements SensorEventListener,
 
     }
     public void dailyNotification(){
-        String dailyStepsMessage = "You have walked " + numSteps + " steps today!";
+        String dailyStepsMessage = "You have walked " + (numSteps - 1) + " steps today!";
         Notification dailyNotification = new NotificationCompat.Builder(Main_menu.this, App.dailyNotification)
                 .setSmallIcon(R.drawable.ic_run)
                 .setContentTitle("PEDOFIT DAILY STEPS")

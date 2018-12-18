@@ -24,21 +24,21 @@ public class StepsHistory {
     @ColumnInfo(name = "history_distance")
     int historyDistance;
 
-    public StepsHistory(@NonNull int historyID) {
+/*    public StepsHistory(@NonNull int historyID) {
         this.historyID = historyID;
-    }
+    }*/
 
     public StepsHistory(@NonNull int historyDay, @NonNull int historyStep, @NonNull int historyDistance) {
         this.historyDay = historyDay;
         this.historyStep = historyStep;
         this.historyDistance = historyDistance;
     }
-    public StepsHistory(@NonNull int historyID, @NonNull int historyDay, @NonNull int historyStep, @NonNull int historyDistance) {
+/*    public StepsHistory(@NonNull int historyID, @NonNull int historyDay, @NonNull int historyStep, @NonNull int historyDistance) {
         this.historyID = historyID;
         this.historyDay = historyDay;
         this.historyStep = historyStep;
         this.historyDistance = historyDistance;
-    }
+    }*/
 
     public StepsHistory() {
     }
